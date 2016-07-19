@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 
 nuget FsReveal
+nuget FSharp.Formatting prerelease 
 nuget FAKE
 nuget Suave
