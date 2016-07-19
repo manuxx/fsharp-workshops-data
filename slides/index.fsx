@@ -338,11 +338,11 @@ let player1 =
 
 let player2 = 
   { Name = "Player 2"
-    Hand = [ { Figure = Four; Suit = Spades }
-             { Figure = Five; Suit = Spades }
-             { Figure = Six; Suit = Spades }
-             { Figure = Seven; Suit = Spades }
-             { Figure = Eight; Suit = Spades } ] }
+    Hand = [ { Figure = Three; Suit = Spades }
+             { Figure = Five; Suit = Hearts }
+             { Figure = Six; Suit = Clubs }
+             { Figure = Seven; Suit = Clubs }
+             { Figure = Eight; Suit = Hearts } ] }
 (**
 
 ---
@@ -372,15 +372,21 @@ let ``exercise 2.3`` = hasStraight player1
 ---
 
 ### Exercise 2.4
-Check if hand is *Straight Flush*
+Compare High Hands
 
 #### --------------- Your code goes below --------------- *)
-let allStraightFlushes : list<list<CardRecord>> =
-    [Two .. Ten]
+let compareHighHands (player1: Player) (player2: Player) : Option<Player> =
+    let rec comp hand1 hand2 =
+        match (hand1, hand2) with
+        | [], [] -> None
+        | c1 :: t1, c2 :: t2 ->
+            if c1 < c2 then Some player2
+            elif c1 > c2 then Some player1
+            else comp t1 t2
+    
+    comp player1.Hand player2.Hand
 
-    []
-
-let ``exercise 2.4`` = allStraightFlushes |> List.contains player2.Hand
+let ``exercise 2.4`` = compareHighHands player1 player2 |> Option.map (fun p -> p.Name)
 (** #### Value of ``exercise 2.4`` *)
 (*** include-value: ``exercise 2.4`` ***)
 (**
@@ -393,8 +399,81 @@ let ``exercise 2.4`` = allStraightFlushes |> List.contains player2.Hand
 
 ## Lists
 
+
+
+---
+
+### Exercise 3.1
+Bowling game ([kata description](http://codingdojo.org/cgi-bin/index.pl?KataBowling))
+
+#### --------------- Your code goes below --------------- *)
+let optsToOpt opts  =
+    let rec optsToOpt' acc opts =
+        match acc, opts with
+        | x, [] -> x
+        | Some xs, Some x :: rest ->
+            optsToOpt' (Some (x :: xs)) rest
+        | _ -> None
+
+    optsToOpt' (Some []) opts
+
+let (|Digit|_|) char =
+    if System.Char.IsDigit char then
+        Some (System.Convert.ToInt32 char)
+    else
+        None
+
+let rec parseScore (chars: list<char>) : list<Option<int>> =
+    match chars with
+    | [] -> []
+    | 'X' :: rest -> Some 10 :: parseScore rest
+    | '-' :: rest -> Some  0 :: parseScore rest
+    | Digit x :: '/' :: rest -> 
+        Some x :: Some (10 - x) :: parseScore rest
+    | Digit x :: rest -> 
+        Some x :: parseScore rest
+    | _ :: rest ->
+        None :: parseScore rest
+
+let rec bowlingScore (score: list<int>) : int =
+    match score with
+    | [] -> 0
+    | 10 :: b1 :: b2 :: [] -> 
+        10 + b1 + b2
+    | 10 :: (b1 :: b2 :: xs as rest) -> 
+        10 + b1 + b2 + bowlingScore rest
+    | r1 :: r2 :: b :: [] when r1 + r2 = 10 -> 
+        10 + b
+    | r1 :: r2 :: (b :: _ as rest) when r1 + r2 = 10 ->
+        10 + b + bowlingScore rest
+    | r1 :: rest -> 
+        r1 + bowlingScore rest
+
+let ``exercise 3.1`` = 
+    "XXXXXXXXXXXX"
+    |> Seq.toList
+    |> parseScore
+    |> optsToOpt
+    |> Option.map bowlingScore
+(** #### Value of ``exercise 3.1`` *)
+(*** include-value: ``exercise 3.1`` ***)
+(**
+
+
+---
+
+przerobić na akumulatory
+
+
+
 ***
 
 ## HOF?
+
+***
+
+## Lazy?
+
+***
 
 *)
