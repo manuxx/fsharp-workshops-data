@@ -29,6 +29,7 @@ slides are regenerated when the script (.\slides\index.fsx) is **saved**
 * Sum Types (Discriminated Unions)
 * Product Types (Tuples, Records)
 * Lists
+* Homework
 
 ***
 
@@ -221,13 +222,13 @@ let ``exercise 1.4`` = insertBST 5 tree |> collectInOrder
 
 * DUs represent distinct cases that **sum up** to the represented Type 
 * DUs types can be defined in recursive way (e.g. Node in Tree)
-* 
+* DUs are immutable - can make a copy, but not mutate
 
 ---
 
 ### Links
 
-*
+* [Discriminated Unions - Adding types together](https://fsharpforfunandprofit.com/posts/discriminated-unions/) by Scott Wlaschin
 * [Introduction to recursive types](https://fsharpforfunandprofit.com/posts/recursive-types-and-folds/) by Scott Wlaschin
 
 
@@ -258,6 +259,7 @@ type Suit = Diamonds | Spades | Hearts | Clubs
 // Type alias for a tuple
 type Card = Figure * Suit
 
+// Type alias for a list
 type Hand = list<Card>
 (**
 
@@ -539,18 +541,17 @@ let ``exercise 2.4`` =
 
 ### Summary: Product Types (Tuples, Records)  
 
-* 
-* 
-* 
+* Type aliases are used for better understanding of code
+* Tuples represent a **product** of two (or more) types
+* Records also represent **product** of subtypes and provide additional functionality
+* Tuples are fine to represent intermediate results, Records better for modelling
 
 ---
 
 ### Links
 
-* 
-* 
-
-
+* [Tuples - Multiplying types together](https://fsharpforfunandprofit.com/posts/tuples/) by Scott Wlaschin
+* [Records - Extending tuples with labels](https://fsharpforfunandprofit.com/posts/records/) by Scott Wlaschin
 
 
 ***
@@ -599,7 +600,7 @@ let (|Digit|_|) char =
 
 let digit = 
     match '5' with
-    | Digit x -> "a digit"
+    | Digit x -> "a digit " + x.ToString()
     | _ -> "not a digit"
 (** #### Value of ``digit`` *)
 (*** include-value: ``digit`` ***)
@@ -696,6 +697,21 @@ let ``exercise 3.2`` =
 
 ---
 
+### Summary: Lists  
+
+* List are idiomatic for F# 
+* Pattern matching combined with recursion allow to represent complex list algorithms in elegant way
+
+---
+
+### Links
+
+* [F# Lists](https://msdn.microsoft.com/en-us/visualfsharpdocs/conceptual/lists-%5Bfsharp%5D) - MSDN
+* [F# Lists](http://www.dotnetperls.com/list-fs) - DotNet Pearls
+
+
+***
+
 ### Options to option *)
 let optsToOpt opts  =
     let rec optsToOpt' acc opts =
@@ -758,21 +774,6 @@ let ``homework 2`` = bowlingScoreTail "XXXXXXXXXXXX"
 (** #### Value of ``homework 2`` *)
 (*** include-value: ``homework 2`` ***)
 (**
-
----
-
-### Summary: Lists  
-
-* 
-* 
-* 
-
----
-
-### Links
-
-* 
-* 
 
 
 ***
