@@ -29,7 +29,6 @@ slides are regenerated when the script (.\slides\index.fsx) is **saved**
 * Sum Types (Discriminated Unions)
 * Product Types (Tuples, Records)
 * Lists
-* Functions as first class? HOF?
 
 ***
 
@@ -216,6 +215,22 @@ let ``exercise 1.4`` = insertBST 5 tree |> collectInOrder
 (*** include-value: ``exercise 1.4`` ***)
 (**
 
+---
+
+### Summary: Sum Types (Discriminated Unions)  
+
+* DUs represent distinct cases that **sum up** to the represented Type 
+* DUs types can be defined in recursive way (e.g. Node in Tree)
+* 
+
+---
+
+### Links
+
+*
+* [Introduction to recursive types](https://fsharpforfunandprofit.com/posts/recursive-types-and-folds/) by Scott Wlaschin
+
+
 
 
 
@@ -325,10 +340,22 @@ let ``exercise 2.1`` = isFlush handFlush
 ---
 
 ### New Stuff 2.2
-#### GroupBy
-#### Map
-#### Structural equality?
- *)
+#### List.Map *)
+let mapModThree =
+    [1 .. 10]
+    |> List.map (fun n -> n % 3 = 0)
+(** #### Value of ``mapModThree`` *)
+(*** include-value: ``mapModThree`` ***)
+(**
+
+---
+
+#### List.GroupBy *)
+let groupModThree =
+    [1 .. 10]
+    |> List.groupBy (fun n -> n % 3)
+(** #### Value of ``groupModThree`` *)
+(*** include-value: ``groupModThree`` ***)
 (**
 
 ---
@@ -378,23 +405,6 @@ type Player =
 
 ---
 
-#### Record fields
-#### List.pairwise
-
----
-
-#### Comparing DUs cases *)
-let comparisons = 
-    [Three, Four
-     Six, Eight
-     Two, King]
-    |> List.map (fun (first, second) -> compare first second)
-(** #### Value of ``comparisons`` *)
-(*** include-value: ``comparisons`` ***)
-(**
-
----
-
 #### Players *)
 let player1 = 
   { Name = "Player 1" 
@@ -411,6 +421,42 @@ let player2 =
              { Figure = Six; Suit = Clubs }
              { Figure = Seven; Suit = Clubs }
              { Figure = Eight; Suit = Hearts } ] }
+(**
+
+---
+
+#### Record fields - player name *)
+let player1Name = player1.Name
+(** #### Value of ``player1Name`` *)
+(*** include-value: ``player1Name`` ***)
+(** #### Record fields - player figures *)
+let player1Figures = 
+    player1.Hand
+    |> List.map (fun c -> c.Figure) 
+(** #### Value of ``player1Figures`` *)
+(*** include-value: ``player1Figures`` ***)
+(**
+
+---
+
+#### List.pairwise *)
+let numberPairs = 
+    [1..5]
+    |> List.pairwise
+(** #### Value of ``numberPairs`` *)
+(*** include-value: ``numberPairs`` ***)
+(**
+
+---
+
+#### Comparing DUs cases *)
+let comparisons = 
+    [Three, Four
+     Six, Eight
+     Two, King]
+    |> List.map (fun (first, second) -> compare first second)
+(** #### Value of ``comparisons`` *)
+(*** include-value: ``comparisons`` ***)
 (**
 
 ---
@@ -449,7 +495,28 @@ let ``exercise 2.3`` = hasStraight player1
 ---
 
 ### New Stuff 2.4
-#### Record `with` syntax constructor *)
+#### DU structural equality *)
+let player1FirstCard = player1.Hand.[0]
+let isFour = player1FirstCard.Figure = Four
+(** #### Value of ``isFour`` *)
+(*** include-value: ``isFour`` ***)
+(** #### Record structural equality *)
+let isFourSpades = player1FirstCard = { Figure = Four; Suit = Spades }
+(** #### Value of ``isFourSpades`` *)
+(*** include-value: ``isFourSpades`` ***)
+(**
+
+---
+
+#### Record copy-and-update expression *)
+let player1Clone = { player1 with Name = "Someone else" }
+let player1CloneName = player1Clone.Name
+(** #### Value of ``player1CloneName`` *)
+(*** include-value: ``player1CloneName`` ***)
+(** #### Unmodified fields remain the same *)
+let sameHands = player1.Hand = player1Clone.Hand
+(** #### Value of ``sameHands`` *)
+(*** include-value: ``sameHands`` ***)
 (**
 
 ---
@@ -468,6 +535,20 @@ let ``exercise 2.4`` =
 (*** include-value: ``exercise 2.4`` ***)
 (**
 
+---
+
+### Summary: Product Types (Tuples, Records)  
+
+* 
+* 
+* 
+
+---
+
+### Links
+
+* 
+* 
 
 
 
@@ -564,12 +645,36 @@ let ``exercise 3.1`` = parseScore ['X';'4';'/';'2';'-';'N']
 ---
 
 ### New Stuff 3.2
-#### Pattern match guards `when`
-#### Symbol alias in pattern matching *)
+#### Pattern match guards (`when` keyword) *)
+let onlyEvenNumber optNumber =
+    match optNumber with
+    | Some n when n % 2 = 0 -> "ok"
+    | _ -> "wrong"
+    
+let onlyEvenNumbers =
+    [Some 2; Some 3; Some 4; Some 5; None]
+    |> List.map onlyEvenNumber
+(** #### Value of ``onlyEvenNumbers`` *)
+(*** include-value: ``onlyEvenNumbers`` ***)
 (**
 
+---
+
+#### Symbol alias in pattern matching *)
+let rec numTriangle numbers =
+    match numbers with
+    | first :: (second :: _ as rest) ->
+        first + second :: numTriangle rest
+    | _ ->
+        []
+
+let triangle = numTriangle [1 .. 5]
+(** #### Value of ``triangle`` *)
+(*** include-value: ``triangle`` ***)
+(**
 
 ---
+
 ### Exercise 3.2
 Implement `countScore`
 
@@ -615,11 +720,7 @@ Implement `bowlingScore`.
 Hint: Use `optsToOpt` to convert from list of options to option of list
 *)
 let bowlingScore (score: string) : Option<int> =
-    score.ToCharArray()
-    |> Array.toList
-    |> parseScore
-    |> optsToOpt
-    |> Option.map countScore
+    Some 0
 
 let ``homework 1`` = 
     ["XXXXXXXXXXXX" 
@@ -658,15 +759,28 @@ let ``homework 2`` = bowlingScoreTail "XXXXXXXXXXXX"
 (*** include-value: ``homework 2`` ***)
 (**
 
+---
+
+### Summary: Lists  
+
+* 
+* 
+* 
+
+---
+
+### Links
+
+* 
+* 
+
 
 ***
 
-## HOF?
+## Summary
 
-***
-
-## Lazy?
-
-***
+* Sum Types (Discriminated Unions)
+* Product Types (Tuples, Records)
+* Lists
 
 *)
