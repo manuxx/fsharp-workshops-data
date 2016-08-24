@@ -22,6 +22,8 @@ or download ZIP from [here](https://github.com/theimowski/fsharp-workshops-data/
 
 slides are regenerated when the script (.\slides\index.fsx) is **saved**
 
+==> **NOTE:** this is a different GIT repository, don't mix it with the one from previous workshops
+
 ---
 
 ### Agenda 
@@ -85,7 +87,7 @@ let tree =
 ---
 
 ### Example 1.1
-Counting intenal nodes (nodes that have at least one non-empty child) *)
+Counting internal nodes (nodes that have at least one non-empty child) *)
 let rec countInternal (tree: Tree) : int =
     match tree with
     | Empty -> 0
@@ -393,6 +395,8 @@ let ``exercise 2.2`` = isFullHouse handFullHouse
 
 
 ---
+
+// TODO: Different example
 
 ### New Stuff 2.3
 #### Modelling Card game with Records *)
