@@ -79,11 +79,22 @@ let tree =
 (**
 ![bst](images/bst.png)
 
+---
+
+### printf and sprintf for debugging *)
+
+printf "This is what a tree looks like: %A" tree
+
+let sprintfResult = sprintf "%A" tree
+
+(** #### Value of ``sprintfResult`` *)
+(*** include-value: ``sprintfResult`` ***)
 
 
 
 
 
+(**
 ---
 
 ### Example 1.1
@@ -105,13 +116,14 @@ let ``example 1.1`` = countInternal tree
 ---
 
 ### Exercise 1.1
-Count leaves of tree
+
+Sum values of all leaves in tree
 
 #### --------------- Your code goes below --------------- *)
-let rec countLeaves (tree: Tree) : int = 
+let rec sumLeaves (tree: Tree) : int = 
     0
 
-let ``exercise 1.1`` = countLeaves tree
+let ``exercise 1.1`` = sumLeaves tree
 (** #### Value of ``exercise 1.1`` *)
 (*** include-value: ``exercise 1.1`` ***)
 (**
