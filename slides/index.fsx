@@ -408,84 +408,36 @@ let ``exercise 2.2`` = isFullHouse handFullHouse
 
 ---
 
-// TODO: Different example
-
 ### New Stuff 2.3
-#### Modelling Card game with Records *)
-type CardRecord = 
-  { Figure : Figure
-    Suit : Suit }
+#### Records *)
 
-type Player = 
-  { Name : string
-    Hand : list<CardRecord> }
+type Point =
+  { X : float 
+    Y : float }
+
+type PositionedShape =
+  { Shape : Shape 
+    Center : Point }
+
 (**
 
 ---
 
-#### Players *)
-let player1 = 
-  { Name = "Player 1" 
-    Hand = [ { Figure = Four; Suit = Spades }
-             { Figure = Five; Suit = Diamonds }
-             { Figure = Six; Suit = Hearts }
-             { Figure = Seven; Suit = Spades }
-             { Figure = Eight; Suit = Clubs } ] }
-
-let player2 = 
-  { Name = "Player 2"
-    Hand = [ { Figure = Three; Suit = Spades }
-             { Figure = Five; Suit = Hearts }
-             { Figure = Six; Suit = Clubs }
-             { Figure = Seven; Suit = Clubs }
-             { Figure = Eight; Suit = Hearts } ] }
-(**
+#### Record fields (labeled)
 
 ---
 
-#### Record fields - player name *)
-let player1Name = player1.Name
-(** #### Value of ``player1Name`` *)
-(*** include-value: ``player1Name`` ***)
-(** #### Record fields - player figures *)
-let player1Figures = 
-    player1.Hand
-    |> List.map (fun c -> c.Figure) 
-(** #### Value of ``player1Figures`` *)
-(*** include-value: ``player1Figures`` ***)
-(**
+#### Record structural equality *)
 
----
+(** #### Value of ``xxx`` *)
+(*** include-value: ``xxx`` ***)
 
-#### List.pairwise *)
-let numberPairs = 
-    [1..5]
-    |> List.pairwise
-(** #### Value of ``numberPairs`` *)
-(*** include-value: ``numberPairs`` ***)
-(**
-
----
-
-#### Comparing DUs cases *)
-let comparisons = 
-    [Three, Four
-     Six, Eight
-     Two, King]
-    |> List.map (fun (first, second) -> compare first second)
-(** #### Value of ``comparisons`` *)
-(*** include-value: ``comparisons`` ***)
-(**
+(** 
 
 ---
 
 ### Example 2.3
-Pairwise list processing  *)
-let ``example 2.3`` = 
-    [1 .. 10]
-    |> List.map (fun x -> x*x)
-    |> List.pairwise
-    |> List.map (fun (first,second) -> second - first)
+ *)
 (** #### Value of ``example 2.3`` *)
 (*** include-value: ``example 2.3`` ***)
 (**
@@ -493,62 +445,71 @@ let ``example 2.3`` =
 ---
 
 ### Exercise 2.3
-Check if hand is *Straight* (no *baby straight* )
+Check if first shape is circumcircle of second shape
 
 #### --------------- Your code goes below --------------- *)
-let hasStraight (player: Player) : bool = 
-    false
+let isCircumcircle (circle: PositionedShape) (shape: PositionedShape) = 
+    if circle.Center = shape.Center then
+        match (circle.Shape, shape.Shape) with
+        | Circle radius, Square edge ->
+            radius = (0.5 * edge * (sqrt 2.0))
+        | Circle radius, Rectangle (width, height) ->
+            let diagonal = sqrt (width ** 2.0 + height ** 2.0)
+            radius = diagonal / 2.0
+        | _ ->
+            false
+    else
+        false
 
-let ``exercise 2.3`` = hasStraight player1
+(** --- *)
+
+let ``exercise 2.3`` = 
+    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
+      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }} ]
+    |> List.map (fun (first,second) -> isCircumcircle first second)
 (** #### Value of ``exercise 2.3`` *)
 (*** include-value: ``exercise 2.3`` ***)
 (**
 
 
-
-
-
-
-
 ---
 
 ### New Stuff 2.4
-#### DU structural equality *)
-let player1FirstCard = player1.Hand.[0]
-let isFour = player1FirstCard.Figure = Four
-(** #### Value of ``isFour`` *)
-(*** include-value: ``isFour`` ***)
-(** #### Record structural equality *)
-let isFourSpades = player1FirstCard = { Figure = Four; Suit = Spades }
-(** #### Value of ``isFourSpades`` *)
-(*** include-value: ``isFourSpades`` ***)
+#### Record copy-and-update expression *)
 (**
 
 ---
 
-#### Record copy-and-update expression *)
-let player1Clone = { player1 with Name = "Someone else" }
-let player1CloneName = player1Clone.Name
-(** #### Value of ``player1CloneName`` *)
-(*** include-value: ``player1CloneName`` ***)
-(** #### Unmodified fields remain the same *)
-let sameHands = player1.Hand = player1Clone.Hand
-(** #### Value of ``sameHands`` *)
-(*** include-value: ``sameHands`` ***)
+### Example 2.4
+
+*)
+
+(** #### Value of ``example 2.4`` *)
+(*** include-value: ``example 2.4`` ***)
 (**
 
 ---
 
 ### Exercise 2.4
-Compare High Hands (highest card when there's no other rank)
+Scale positioned shape
 
 #### --------------- Your code goes below --------------- *)
-let rec compareHighHands (p1: Player) (p2: Player) : Option<Player> =
-    None
+let scale (shape: PositionedShape) (magnitude: float) : PositionedShape  = 
+    match shape.Shape with
+    | Square edge -> 
+        { shape with Shape = Square (edge * magnitude) }
+    | Rectangle (width,height) -> 
+        { shape with Shape = Rectangle (width * magnitude, height * magnitude) }
+    | Circle radius ->
+        { shape with Shape = Circle (radius * magnitude) }
+
+(** --- *)
 
 let ``exercise 2.4`` = 
-    compareHighHands player1 player2 
-    |> Option.map (fun p -> p.Name)
+    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
+      2.0 ]
+    |> List.map (fun (shape,magnitude) -> scale shape magnitude)
+
 (** #### Value of ``exercise 2.4`` *)
 (*** include-value: ``exercise 2.4`` ***)
 (**
