@@ -489,7 +489,7 @@ Check if first shape is circumcircle of second shape.
 First shape must be a circle, second a square or rectangle
 
 #### --------------- Your code goes below --------------- *)
-let isCircumcircle (circle: PositionedShape) (shape: PositionedShape) : bool = 
+let isCircumcircle (circlePos: PositionedShape) (shapePos: PositionedShape) : bool = 
     false
 
 (** --- *)
@@ -560,7 +560,7 @@ let ``example 2.4`` =
 Scale positioned shape
 
 #### --------------- Your code goes below --------------- *)
-let scale (magnitude: float) (shape: PositionedShape) : PositionedShape  = 
+let scale (magnitude: float) (shapePos: PositionedShape) : PositionedShape  = 
     shape
 
 (** --- *)
