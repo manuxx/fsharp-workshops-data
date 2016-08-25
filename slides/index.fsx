@@ -292,10 +292,16 @@ let oddNumbers =
 ### Pattern matching tuples *)
 let kingSpades = King, Spades
 let (figure, suit) = kingSpades
+let isKingSpades = 
+    match kingSpades with
+    | King, Spades -> true
+    | _ -> false
 (** #### Value of ``figure`` *)
 (*** include-value: ``figure`` ***)
 (** #### Value of ``suit`` *)
 (*** include-value: ``suit`` ***)
+(** #### Value of ``isKingSpades`` *)
+(*** include-value: ``isKingSpades`` ***)
 (**
 
 ---
@@ -415,7 +421,7 @@ type Point =
   { X : float 
     Y : float }
 
-type PositionedShape =
+type CenteredShape =
   { Shape : Shape 
     Center : Point }
 
@@ -489,7 +495,10 @@ Check if first shape is circumcircle of second shape.
 First shape must be a circle, second a square or rectangle
 
 #### --------------- Your code goes below --------------- *)
-let isCircumcircle (circlePos: PositionedShape) (shapePos: PositionedShape) : bool = 
+let isCircumcircle 
+    (centeredCircle: CenteredShape) 
+    (centeredShape:  CenteredShape) 
+    : bool = 
     false
 
 (** --- *)
@@ -517,13 +526,13 @@ let ``exercise 2.3`` =
 ### New Stuff 2.4
 #### Record copy-and-update expression *)
 
-let positionedShape = { Shape = Square 2.0; Center = { X = 0.0; Y = 0.0 } }
+let zeroSquare = { Shape = Square 2.0; Center = { X = 0.0; Y = 0.0 } }
 
 let squareMoved =
-    { positionedShape with Center = { X = 2.0; Y = 1.0 } }
+    { zeroSquare with Center = { X = 2.0; Y = 1.0 } }
 
 let circleWithSameCenter =
-    { positionedShape with Shape = Circle 3.0 }
+    { zeroSquare with Shape = Circle 3.0 }
 
 (** #### Value of ``squareMoved`` *)
 (*** include-value: ``squareMoved`` ***)
@@ -537,9 +546,9 @@ let circleWithSameCenter =
 ---
 
 ### Example 2.4
-Translate positioned shape
+Translate centered shape
 *)
-let translate (vectorPoint: Point) (shape: PositionedShape) : PositionedShape =
+let translate (vectorPoint: Point) (shape: CenteredShape) : CenteredShape =
     { shape with Center = 
                  { X = shape.Center.X + vectorPoint.X; 
                    Y = shape.Center.Y + vectorPoint.Y }}
@@ -557,11 +566,11 @@ let ``example 2.4`` =
 ---
 
 ### Exercise 2.4
-Scale positioned shape
+Scale centered shape
 
 #### --------------- Your code goes below --------------- *)
-let scale (magnitude: float) (shapePos: PositionedShape) : PositionedShape  = 
-    shape
+let scale (magnitude: float) (centeredShape: CenteredShape) : CenteredShape  = 
+    centeredShape
 
 (** --- *)
 
