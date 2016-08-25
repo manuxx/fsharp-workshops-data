@@ -423,21 +423,60 @@ type PositionedShape =
 
 ---
 
-#### Record fields (labeled)
+#### Record fields (labeled) *)
 
+let point = { X = 2.0; Y = 4.5 }
+let shape = { Shape = Square 3.0; Center = point }
+
+let pointX = point.X
+let shapeField = shape.Shape
+(** #### Value of ``pointX`` *)
+(*** include-value: ``pointX`` ***)
+
+(** #### Value of ``shapeField`` *)
+(*** include-value: ``shapeField`` ***)
+
+
+(**
 ---
 
 #### Record structural equality *)
 
-(** #### Value of ``xxx`` *)
-(*** include-value: ``xxx`` ***)
+let shapesAreEqual = 
+    shape = { Shape = Square 3.0; Center = point }
+
+(** #### Value of ``shapesAreEqual`` *)
+(*** include-value: ``shapesAreEqual`` ***)
 
 (** 
 
 ---
 
+#### Power and square root *)
+
+let forthAndBack =
+    [ 1.0 .. 10.0 ]
+    |> List.map (fun x -> x ** 2.0)
+    |> List.map (fun x -> sqrt x)
+
+(** #### Value of ``forthAndBack`` *)
+(*** include-value: ``forthAndBack`` ***)
+
+(**
+
+---
+
 ### Example 2.3
- *)
+Finding shapes with center in specific point *)
+let withCenterIn point shapes =
+    shapes
+    |> List.filter (fun shape -> shape.Center = point)
+
+let ``example 2.3`` =
+    [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
+     { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }}
+     { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
+    |> withCenterIn { X = 0.0; Y = 0.0 }
 (** #### Value of ``example 2.3`` *)
 (*** include-value: ``example 2.3`` ***)
 (**
@@ -445,27 +484,28 @@ type PositionedShape =
 ---
 
 ### Exercise 2.3
-Check if first shape is circumcircle of second shape
+Check if first shape is circumcircle of second shape.
+
+First shape must be a circle, second a square or rectangle
 
 #### --------------- Your code goes below --------------- *)
-let isCircumcircle (circle: PositionedShape) (shape: PositionedShape) = 
-    if circle.Center = shape.Center then
-        match (circle.Shape, shape.Shape) with
-        | Circle radius, Square edge ->
-            radius = (0.5 * edge * (sqrt 2.0))
-        | Circle radius, Rectangle (width, height) ->
-            let diagonal = sqrt (width ** 2.0 + height ** 2.0)
-            radius = diagonal / 2.0
-        | _ ->
-            false
-    else
-        false
+let isCircumcircle (circle: PositionedShape) (shape: PositionedShape) : bool = 
+    false
 
 (** --- *)
 
 let ``exercise 2.3`` = 
-    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
-      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }} ]
+    [({ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
+      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }})
+
+     ({ Shape = Circle (sqrt 2.0); Center = { X = 1.0; Y = 0.0 }},
+      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }})
+
+     ({ Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 }},
+      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 0.0 }})
+
+     ({ Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 }},
+      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }})]
     |> List.map (fun (first,second) -> isCircumcircle first second)
 (** #### Value of ``exercise 2.3`` *)
 (*** include-value: ``exercise 2.3`` ***)
@@ -476,13 +516,39 @@ let ``exercise 2.3`` =
 
 ### New Stuff 2.4
 #### Record copy-and-update expression *)
+
+let positionedShape = { Shape = Square 2.0; Center = { X = 0.0; Y = 0.0 } }
+
+let squareMoved =
+    { positionedShape with Center = { X = 2.0; Y = 1.0 } }
+
+let circleWithSameCenter =
+    { positionedShape with Shape = Circle 3.0 }
+
+(** #### Value of ``squareMoved`` *)
+(*** include-value: ``squareMoved`` ***)
+
+(** #### Value of ``circleWithSameCenter`` *)
+(*** include-value: ``circleWithSameCenter`` ***)
+
+
 (**
 
 ---
 
 ### Example 2.4
-
+Translate positioned shape
 *)
+let translate (vectorPoint: Point) (shape: PositionedShape) : PositionedShape =
+    { shape with Center = 
+                 { X = shape.Center.X + vectorPoint.X; 
+                   Y = shape.Center.Y + vectorPoint.Y }}
+
+let ``example 2.4`` = 
+    [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
+     { Shape = Square 2.0;        Center = { X = 0.0; Y = 3.0 }}
+     { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
+    |> List.map (translate { X = -2.0; Y = -3.0 })
 
 (** #### Value of ``example 2.4`` *)
 (*** include-value: ``example 2.4`` ***)
@@ -494,21 +560,16 @@ let ``exercise 2.3`` =
 Scale positioned shape
 
 #### --------------- Your code goes below --------------- *)
-let scale (shape: PositionedShape) (magnitude: float) : PositionedShape  = 
-    match shape.Shape with
-    | Square edge -> 
-        { shape with Shape = Square (edge * magnitude) }
-    | Rectangle (width,height) -> 
-        { shape with Shape = Rectangle (width * magnitude, height * magnitude) }
-    | Circle radius ->
-        { shape with Shape = Circle (radius * magnitude) }
+let scale (magnitude: float) (shape: PositionedShape) : PositionedShape  = 
+    shape
 
 (** --- *)
 
 let ``exercise 2.4`` = 
-    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
-      2.0 ]
-    |> List.map (fun (shape,magnitude) -> scale shape magnitude)
+    [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
+     { Shape = Square 1.0;        Center = { X = 0.0; Y = 3.0 }}
+     { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
+    |> List.map (scale 2.0)
 
 (** #### Value of ``exercise 2.4`` *)
 (*** include-value: ``exercise 2.4`` ***)
