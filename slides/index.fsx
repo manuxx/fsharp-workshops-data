@@ -121,7 +121,10 @@ Sum values of all leaves in tree
 
 #### --------------- Your code goes below --------------- *)
 let rec sumLeaves (tree: Tree) : int = 
-    0
+    match tree with
+    | Empty -> 0
+    | Node (v, Empty, Empty) -> v
+    | Node (_, left, right) -> sumLeaves left + sumLeaves right
 
 let ``exercise 1.1`` = sumLeaves tree
 (** #### Value of ``exercise 1.1`` *)
@@ -172,7 +175,10 @@ Collect **all values** from tree into a list in-order
 
 #### --------------- Your code goes below --------------- *)
 let rec collectInOrder (tree : Tree) : list<int> =
-    []
+    match tree with
+    | Empty -> []
+    | Node (v, left, right) ->
+        collectInOrder left @ [v] @ collectInOrder right
 
 let ``exercise 1.2`` = collectInOrder tree
 (** #### Value of ``exercise 1.2`` *)
@@ -190,7 +196,8 @@ Check if tree is sorted
 
 #### --------------- Your code goes below --------------- *)
 let isSorted (tree: Tree) : bool =
-    false
+    let collected = collectInOrder tree
+    List.sort collected = collected
 
 let ``exercise 1.3`` = isSorted tree
 (** #### Value of ``exercise 1.3`` *)
@@ -223,7 +230,13 @@ Insert element into Binary Search Tree
 
 #### --------------- Your code goes below --------------- *)
 let rec insertBST (value: int) (tree: Tree) : Tree =
-    Empty
+    match tree with
+    | Empty -> Node (value, Empty, Empty)
+    | Node (v, left, right) ->
+        if value < v then
+            Node (v, insertBST value left, right)
+        else
+            Node (v, left, insertBST value right)
 
 let ``exercise 1.4`` = insertBST 5 tree |> collectInOrder
 (** #### Value of ``exercise 1.4`` *)
@@ -347,7 +360,11 @@ Check if hand is *Flush*
 let handFlush = [King,Clubs;Queen,Clubs;Nine,Clubs;Eight,Clubs;Five,Clubs]
 
 let isFlush (hand: Hand) : bool =
-    false
+    hand
+    |> List.map snd
+    |> List.pairwise
+    |> List.forall (fun (first,second) -> first = second)
+
 
 let ``exercise 2.1`` = isFlush handFlush
 (** #### Value of ``exercise 2.1`` *)
@@ -401,7 +418,11 @@ Check if hand is *Full House*
 let handFullHouse = [King,Clubs;King,Spades;Nine,Clubs;Nine,Diamonds;Nine,Spades]
 
 let isFullHouse (hand: Hand) : bool =
-    false
+    hand
+    |> List.groupBy fst
+    |> List.map (fun (_, cards) -> cards.Length)
+    |> List.sort
+    |> [2;3].Equals
 
 let ``exercise 2.2`` = isFullHouse handFullHouse
 (** #### Value of ``exercise 2.2`` *)
@@ -499,7 +520,18 @@ let isCircumcircle
     (centeredCircle: CenteredShape) 
     (centeredShape:  CenteredShape) 
     : bool = 
-    false
+    if centeredCircle.Center <> centeredShape.Center then
+        false
+    else
+        match (centeredCircle.Shape, centeredShape.Shape) with
+        | Circle r, Square e -> 
+            let diagonal = e * (sqrt 2.0)
+            diagonal / 2.0 = r
+        | Circle r, Rectangle (w,h) ->
+            let diagonal = sqrt (w ** 2.0 + h ** 2.0)
+            diagonal / 2.0 = r
+        | _ -> 
+            false
 
 (** --- *)
 
@@ -570,7 +602,13 @@ Scale centered shape
 
 #### --------------- Your code goes below --------------- *)
 let scale (magnitude: float) (centeredShape: CenteredShape) : CenteredShape  = 
-    centeredShape
+    match centeredShape.Shape with
+    | Circle r -> 
+        { centeredShape with Shape = Circle (r * magnitude) }
+    | Square e -> 
+        { centeredShape with Shape = Square (e * magnitude) }
+    | Rectangle (w,h) -> 
+        { centeredShape with Shape = Rectangle (w * magnitude, h * magnitude) }
 
 (** --- *)
 
