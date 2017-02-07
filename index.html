@@ -207,17 +207,17 @@
 <div class="tip" id="fs159">val countScore : scores:int list -&gt; int<br /><br />Full name: Index.countScore</div>
 <div class="tip" id="fs160">val scores : int list</div>
 <div class="tip" id="fs161">val ( exercise 3.2 ) : int list<br /><br />Full name: Index.( exercise 3.2 )</div>
-<div class="tip" id="fs162">val optsToOpt : opts:&#39;a option list -&gt; &#39;a list option<br /><br />Full name: Index.optsToOpt</div>
-<div class="tip" id="fs163">val opts : &#39;a option list</div>
-<div class="tip" id="fs164">val optsToOpt&#39; : (&#39;b list option -&gt; &#39;b option list -&gt; &#39;b list option)</div>
-<div class="tip" id="fs165">val acc : &#39;b list option</div>
-<div class="tip" id="fs166">val opts : &#39;b option list</div>
-<div class="tip" id="fs167">val x : &#39;b list option</div>
+<div class="tip" id="fs162">val sequence : optionals:&#39;a option list -&gt; &#39;a list option<br /><br />Full name: Index.sequence</div>
+<div class="tip" id="fs163">val optionals : &#39;a option list</div>
+<div class="tip" id="fs164">type &#39;T option = Option&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Core.option&lt;_&gt;</div>
+<div class="tip" id="fs165">val sequence&#39; : (&#39;b list option -&gt; &#39;b option list -&gt; &#39;b list option)</div>
+<div class="tip" id="fs166">val acc : &#39;b list option</div>
+<div class="tip" id="fs167">val optionals : &#39;b option list</div>
 <div class="tip" id="fs168">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; option:&#39;T option -&gt; &#39;U option<br /><br />Full name: Microsoft.FSharp.Core.Option.map</div>
 <div class="tip" id="fs169">val rev : list:&#39;T list -&gt; &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List.rev</div>
-<div class="tip" id="fs170">val xs : &#39;b list</div>
-<div class="tip" id="fs171">val x : &#39;b</div>
-<div class="tip" id="fs172">val rest : &#39;b option list</div>
+<div class="tip" id="fs170">val h : &#39;b</div>
+<div class="tip" id="fs171">val t : &#39;b option list</div>
+<div class="tip" id="fs172">val acc : &#39;b list</div>
 <div class="tip" id="fs173">val oneOption : string list option<br /><br />Full name: Index.oneOption</div>
 <div class="tip" id="fs174">val bowlingScore : score:string -&gt; Option&lt;int&gt;<br /><br />Full name: Index.bowlingScore</div>
 <div class="tip" id="fs175">val score : string</div>
@@ -1256,7 +1256,7 @@
 </section>
 <section >
 <section >
-<h3>Options to option</h3>
+<h3>sequence function</h3>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -1268,18 +1268,20 @@
 <span class="l"> 9: </span>
 <span class="l">10: </span>
 <span class="l">11: </span>
+<span class="l">12: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs162', 530)" onmouseover="showTip(event, 'fs162', 530)" class="f">optsToOpt</span> <span onmouseout="hideTip(event, 'fs163', 531)" onmouseover="showTip(event, 'fs163', 531)" class="i">opts</span>  <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs164', 532)" onmouseover="showTip(event, 'fs164', 532)" class="f">optsToOpt&#39;</span> <span onmouseout="hideTip(event, 'fs165', 533)" onmouseover="showTip(event, 'fs165', 533)" class="i">acc</span> <span onmouseout="hideTip(event, 'fs166', 534)" onmouseover="showTip(event, 'fs166', 534)" class="i">opts</span> <span class="o">=</span>
-        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs165', 535)" onmouseover="showTip(event, 'fs165', 535)" class="i">acc</span>, <span onmouseout="hideTip(event, 'fs166', 536)" onmouseover="showTip(event, 'fs166', 536)" class="i">opts</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs167', 537)" onmouseover="showTip(event, 'fs167', 537)" class="i">x</span>, [] <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs167', 538)" onmouseover="showTip(event, 'fs167', 538)" class="i">x</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs149', 539)" onmouseover="showTip(event, 'fs149', 539)" class="t">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs168', 540)" onmouseover="showTip(event, 'fs168', 540)" class="f">map</span> <span onmouseout="hideTip(event, 'fs59', 541)" onmouseover="showTip(event, 'fs59', 541)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs169', 542)" onmouseover="showTip(event, 'fs169', 542)" class="f">rev</span>
-        | <span onmouseout="hideTip(event, 'fs136', 543)" onmouseover="showTip(event, 'fs136', 543)" class="p">Some</span> <span onmouseout="hideTip(event, 'fs170', 544)" onmouseover="showTip(event, 'fs170', 544)" class="i">xs</span>, <span onmouseout="hideTip(event, 'fs136', 545)" onmouseover="showTip(event, 'fs136', 545)" class="p">Some</span> <span onmouseout="hideTip(event, 'fs171', 546)" onmouseover="showTip(event, 'fs171', 546)" class="i">x</span> <span class="o">::</span> <span onmouseout="hideTip(event, 'fs172', 547)" onmouseover="showTip(event, 'fs172', 547)" class="i">rest</span> <span class="k">-&gt;</span>
-            <span onmouseout="hideTip(event, 'fs164', 548)" onmouseover="showTip(event, 'fs164', 548)" class="f">optsToOpt&#39;</span> (<span onmouseout="hideTip(event, 'fs136', 549)" onmouseover="showTip(event, 'fs136', 549)" class="p">Some</span> (<span onmouseout="hideTip(event, 'fs171', 550)" onmouseover="showTip(event, 'fs171', 550)" class="i">x</span> <span class="o">::</span> <span class="i">xs</span>)) <span onmouseout="hideTip(event, 'fs172', 551)" onmouseover="showTip(event, 'fs172', 551)" class="i">rest</span>
-        | _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs137', 552)" onmouseover="showTip(event, 'fs137', 552)" class="p">None</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs162', 530)" onmouseover="showTip(event, 'fs162', 530)" class="f">sequence</span> (<span onmouseout="hideTip(event, 'fs163', 531)" onmouseover="showTip(event, 'fs163', 531)" class="i">optionals</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 532)" onmouseover="showTip(event, 'fs24', 532)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs164', 533)" onmouseover="showTip(event, 'fs164', 533)" class="t">option</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span><span class="o">&gt;</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs164', 534)" onmouseover="showTip(event, 'fs164', 534)" class="t">option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs24', 535)" onmouseover="showTip(event, 'fs24', 535)" class="t">list</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span><span class="o">&gt;</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs165', 536)" onmouseover="showTip(event, 'fs165', 536)" class="f">sequence&#39;</span> <span onmouseout="hideTip(event, 'fs166', 537)" onmouseover="showTip(event, 'fs166', 537)" class="i">acc</span> <span onmouseout="hideTip(event, 'fs167', 538)" onmouseover="showTip(event, 'fs167', 538)" class="i">optionals</span> <span class="o">=</span>
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs167', 539)" onmouseover="showTip(event, 'fs167', 539)" class="i">optionals</span>, <span onmouseout="hideTip(event, 'fs166', 540)" onmouseover="showTip(event, 'fs166', 540)" class="i">acc</span> <span class="k">with</span>
+        | [],_ <span class="k">-&gt;</span> 
+            <span onmouseout="hideTip(event, 'fs149', 541)" onmouseover="showTip(event, 'fs149', 541)" class="t">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs168', 542)" onmouseover="showTip(event, 'fs168', 542)" class="f">map</span> <span onmouseout="hideTip(event, 'fs59', 543)" onmouseover="showTip(event, 'fs59', 543)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs169', 544)" onmouseover="showTip(event, 'fs169', 544)" class="f">rev</span> <span onmouseout="hideTip(event, 'fs166', 545)" onmouseover="showTip(event, 'fs166', 545)" class="i">acc</span>
+        | <span onmouseout="hideTip(event, 'fs136', 546)" onmouseover="showTip(event, 'fs136', 546)" class="p">Some</span> <span onmouseout="hideTip(event, 'fs170', 547)" onmouseover="showTip(event, 'fs170', 547)" class="i">h</span> <span class="o">::</span> <span onmouseout="hideTip(event, 'fs171', 548)" onmouseover="showTip(event, 'fs171', 548)" class="i">t</span>, <span onmouseout="hideTip(event, 'fs136', 549)" onmouseover="showTip(event, 'fs136', 549)" class="p">Some</span> <span onmouseout="hideTip(event, 'fs172', 550)" onmouseover="showTip(event, 'fs172', 550)" class="i">acc</span> <span class="k">-&gt;</span> 
+            <span onmouseout="hideTip(event, 'fs165', 551)" onmouseover="showTip(event, 'fs165', 551)" class="f">sequence&#39;</span> (<span onmouseout="hideTip(event, 'fs136', 552)" onmouseover="showTip(event, 'fs136', 552)" class="p">Some</span> (<span onmouseout="hideTip(event, 'fs170', 553)" onmouseover="showTip(event, 'fs170', 553)" class="i">h</span> <span class="o">::</span> <span onmouseout="hideTip(event, 'fs172', 554)" onmouseover="showTip(event, 'fs172', 554)" class="i">acc</span>)) <span onmouseout="hideTip(event, 'fs171', 555)" onmouseover="showTip(event, 'fs171', 555)" class="i">t</span>
+        | _ <span class="k">-&gt;</span> 
+            <span onmouseout="hideTip(event, 'fs137', 556)" onmouseover="showTip(event, 'fs137', 556)" class="p">None</span>
 
-    <span onmouseout="hideTip(event, 'fs164', 553)" onmouseover="showTip(event, 'fs164', 553)" class="f">optsToOpt&#39;</span> (<span onmouseout="hideTip(event, 'fs136', 554)" onmouseover="showTip(event, 'fs136', 554)" class="p">Some</span> []) <span onmouseout="hideTip(event, 'fs163', 555)" onmouseover="showTip(event, 'fs163', 555)" class="i">opts</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs173', 556)" onmouseover="showTip(event, 'fs173', 556)" class="i">oneOption</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs162', 557)" onmouseover="showTip(event, 'fs162', 557)" class="f">optsToOpt</span> [<span onmouseout="hideTip(event, 'fs136', 558)" onmouseover="showTip(event, 'fs136', 558)" class="p">Some</span> <span class="s">&quot;abc&quot;</span>; <span onmouseout="hideTip(event, 'fs136', 559)" onmouseover="showTip(event, 'fs136', 559)" class="p">Some</span> <span class="s">&quot;def&quot;</span>; <span onmouseout="hideTip(event, 'fs136', 560)" onmouseover="showTip(event, 'fs136', 560)" class="p">Some</span> <span class="s">&quot;ghi&quot;</span>]
+    <span onmouseout="hideTip(event, 'fs165', 557)" onmouseover="showTip(event, 'fs165', 557)" class="f">sequence&#39;</span> (<span onmouseout="hideTip(event, 'fs136', 558)" onmouseover="showTip(event, 'fs136', 558)" class="p">Some</span> []) <span onmouseout="hideTip(event, 'fs163', 559)" onmouseover="showTip(event, 'fs163', 559)" class="i">optionals</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs173', 560)" onmouseover="showTip(event, 'fs173', 560)" class="i">oneOption</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs162', 561)" onmouseover="showTip(event, 'fs162', 561)" class="f">sequence</span> [<span onmouseout="hideTip(event, 'fs136', 562)" onmouseover="showTip(event, 'fs136', 562)" class="p">Some</span> <span class="s">&quot;abc&quot;</span>; <span onmouseout="hideTip(event, 'fs136', 563)" onmouseover="showTip(event, 'fs136', 563)" class="p">Some</span> <span class="s">&quot;def&quot;</span>; <span onmouseout="hideTip(event, 'fs136', 564)" onmouseover="showTip(event, 'fs136', 564)" class="p">Some</span> <span class="s">&quot;ghi&quot;</span>]
 </code></pre></td>
 </tr>
 </table>
@@ -1289,7 +1291,7 @@
 <section >
 <h3>Homework 1</h3>
 <p>Implement <code>bowlingScore</code>.</p>
-<p>Hint: Use <code>optsToOpt</code> to convert from list of options to option of list</p>
+<p>Hint: Use <code>sequence</code> to convert from list of options to option of list</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -1299,14 +1301,14 @@
 <span class="l">7: </span>
 <span class="l">8: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs174', 561)" onmouseover="showTip(event, 'fs174', 561)" class="f">bowlingScore</span> (<span onmouseout="hideTip(event, 'fs175', 562)" onmouseover="showTip(event, 'fs175', 562)" class="i">score</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs176', 563)" onmouseover="showTip(event, 'fs176', 563)" class="t">string</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs149', 564)" onmouseover="showTip(event, 'fs149', 564)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 565)" onmouseover="showTip(event, 'fs8', 565)" class="t">int</span><span class="o">&gt;</span> <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs136', 566)" onmouseover="showTip(event, 'fs136', 566)" class="p">Some</span> <span class="n">0</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs174', 565)" onmouseover="showTip(event, 'fs174', 565)" class="f">bowlingScore</span> (<span onmouseout="hideTip(event, 'fs175', 566)" onmouseover="showTip(event, 'fs175', 566)" class="i">score</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs176', 567)" onmouseover="showTip(event, 'fs176', 567)" class="t">string</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs149', 568)" onmouseover="showTip(event, 'fs149', 568)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 569)" onmouseover="showTip(event, 'fs8', 569)" class="t">int</span><span class="o">&gt;</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs136', 570)" onmouseover="showTip(event, 'fs136', 570)" class="p">Some</span> <span class="n">0</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs177', 567)" onmouseover="showTip(event, 'fs177', 567)" class="i">``homework 1``</span> <span class="o">=</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs177', 571)" onmouseover="showTip(event, 'fs177', 571)" class="i">``homework 1``</span> <span class="o">=</span> 
     [<span class="s">&quot;XXXXXXXXXXXX&quot;</span> 
      <span class="s">&quot;9-9-9-9-9-9-9-9-9-9-&quot;</span> 
      <span class="s">&quot;5/5/5/5/5/5/5/5/5/5/5&quot;</span>
-     <span class="s">&quot;X9/5/72XXX9-8/9/X&quot;</span> ] <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs59', 568)" onmouseover="showTip(event, 'fs59', 568)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs81', 569)" onmouseover="showTip(event, 'fs81', 569)" class="f">map</span> <span onmouseout="hideTip(event, 'fs174', 570)" onmouseover="showTip(event, 'fs174', 570)" class="f">bowlingScore</span>
+     <span class="s">&quot;X9/5/72XXX9-8/9/X&quot;</span> ] <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs59', 572)" onmouseover="showTip(event, 'fs59', 572)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs81', 573)" onmouseover="showTip(event, 'fs81', 573)" class="f">map</span> <span onmouseout="hideTip(event, 'fs174', 574)" onmouseover="showTip(event, 'fs174', 574)" class="f">bowlingScore</span>
 </code></pre></td>
 </tr>
 </table>
@@ -1323,10 +1325,10 @@
 <span class="l">4: </span>
 <span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs178', 571)" onmouseover="showTip(event, 'fs178', 571)" class="f">parseScoreTail</span> 
-            (<span onmouseout="hideTip(event, 'fs147', 572)" onmouseover="showTip(event, 'fs147', 572)" class="i">chars</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 573)" onmouseover="showTip(event, 'fs24', 573)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs148', 574)" onmouseover="showTip(event, 'fs148', 574)" class="t">char</span><span class="o">&gt;</span>) 
-            (<span onmouseout="hideTip(event, 'fs179', 575)" onmouseover="showTip(event, 'fs179', 575)" class="i">acc</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 576)" onmouseover="showTip(event, 'fs24', 576)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs149', 577)" onmouseover="showTip(event, 'fs149', 577)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 578)" onmouseover="showTip(event, 'fs8', 578)" class="t">int</span><span class="o">&gt;</span><span class="o">&gt;</span>) 
-            <span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 579)" onmouseover="showTip(event, 'fs24', 579)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs149', 580)" onmouseover="showTip(event, 'fs149', 580)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 581)" onmouseover="showTip(event, 'fs8', 581)" class="t">int</span><span class="o">&gt;</span><span class="o">&gt;</span> <span class="o">=</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs178', 575)" onmouseover="showTip(event, 'fs178', 575)" class="f">parseScoreTail</span> 
+            (<span onmouseout="hideTip(event, 'fs147', 576)" onmouseover="showTip(event, 'fs147', 576)" class="i">chars</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 577)" onmouseover="showTip(event, 'fs24', 577)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs148', 578)" onmouseover="showTip(event, 'fs148', 578)" class="t">char</span><span class="o">&gt;</span>) 
+            (<span onmouseout="hideTip(event, 'fs179', 579)" onmouseover="showTip(event, 'fs179', 579)" class="i">acc</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 580)" onmouseover="showTip(event, 'fs24', 580)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs149', 581)" onmouseover="showTip(event, 'fs149', 581)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 582)" onmouseover="showTip(event, 'fs8', 582)" class="t">int</span><span class="o">&gt;</span><span class="o">&gt;</span>) 
+            <span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 583)" onmouseover="showTip(event, 'fs24', 583)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs149', 584)" onmouseover="showTip(event, 'fs149', 584)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 585)" onmouseover="showTip(event, 'fs8', 585)" class="t">int</span><span class="o">&gt;</span><span class="o">&gt;</span> <span class="o">=</span>
     []
 </code></pre></td>
 </tr>
@@ -1336,7 +1338,7 @@
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs180', 582)" onmouseover="showTip(event, 'fs180', 582)" class="f">countScoreTail</span> (<span onmouseout="hideTip(event, 'fs160', 583)" onmouseover="showTip(event, 'fs160', 583)" class="i">scores</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 584)" onmouseover="showTip(event, 'fs24', 584)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 585)" onmouseover="showTip(event, 'fs8', 585)" class="t">int</span><span class="o">&gt;</span>) (<span onmouseout="hideTip(event, 'fs181', 586)" onmouseover="showTip(event, 'fs181', 586)" class="i">acc</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs8', 587)" onmouseover="showTip(event, 'fs8', 587)" class="t">int</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs8', 588)" onmouseover="showTip(event, 'fs8', 588)" class="t">int</span> <span class="o">=</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs180', 586)" onmouseover="showTip(event, 'fs180', 586)" class="f">countScoreTail</span> (<span onmouseout="hideTip(event, 'fs160', 587)" onmouseover="showTip(event, 'fs160', 587)" class="i">scores</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs24', 588)" onmouseover="showTip(event, 'fs24', 588)" class="t">list</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 589)" onmouseover="showTip(event, 'fs8', 589)" class="t">int</span><span class="o">&gt;</span>) (<span onmouseout="hideTip(event, 'fs181', 590)" onmouseover="showTip(event, 'fs181', 590)" class="i">acc</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs8', 591)" onmouseover="showTip(event, 'fs8', 591)" class="t">int</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs8', 592)" onmouseover="showTip(event, 'fs8', 592)" class="t">int</span> <span class="o">=</span>
     <span class="n">0</span>
 </code></pre></td>
 </tr>
@@ -1348,10 +1350,10 @@
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs182', 589)" onmouseover="showTip(event, 'fs182', 589)" class="f">bowlingScoreTail</span> (<span onmouseout="hideTip(event, 'fs175', 590)" onmouseover="showTip(event, 'fs175', 590)" class="i">score</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs176', 591)" onmouseover="showTip(event, 'fs176', 591)" class="t">string</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs149', 592)" onmouseover="showTip(event, 'fs149', 592)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 593)" onmouseover="showTip(event, 'fs8', 593)" class="t">int</span><span class="o">&gt;</span> <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs136', 594)" onmouseover="showTip(event, 'fs136', 594)" class="p">Some</span> <span class="n">0</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs182', 593)" onmouseover="showTip(event, 'fs182', 593)" class="f">bowlingScoreTail</span> (<span onmouseout="hideTip(event, 'fs175', 594)" onmouseover="showTip(event, 'fs175', 594)" class="i">score</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs176', 595)" onmouseover="showTip(event, 'fs176', 595)" class="t">string</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs149', 596)" onmouseover="showTip(event, 'fs149', 596)" class="t">Option</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs8', 597)" onmouseover="showTip(event, 'fs8', 597)" class="t">int</span><span class="o">&gt;</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs136', 598)" onmouseover="showTip(event, 'fs136', 598)" class="p">Some</span> <span class="n">0</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs183', 595)" onmouseover="showTip(event, 'fs183', 595)" class="i">``homework 2``</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs182', 596)" onmouseover="showTip(event, 'fs182', 596)" class="f">bowlingScoreTail</span> <span class="s">&quot;XXXXXXXXXXXX&quot;</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs183', 599)" onmouseover="showTip(event, 'fs183', 599)" class="i">``homework 2``</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs182', 600)" onmouseover="showTip(event, 'fs182', 600)" class="f">bowlingScoreTail</span> <span class="s">&quot;XXXXXXXXXXXX&quot;</span>
 </code></pre></td>
 </tr>
 </table>
