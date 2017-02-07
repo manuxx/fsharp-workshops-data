@@ -759,18 +759,20 @@ let ``exercise 3.2`` =
 
 ***
 
-### Options to option *)
-let optsToOpt opts  =
-    let rec optsToOpt' acc opts =
-        match acc, opts with
-        | x, [] -> x |> Option.map List.rev
-        | Some xs, Some x :: rest ->
-            optsToOpt' (Some (x :: xs)) rest
-        | _ -> None
+### sequence function *)
 
-    optsToOpt' (Some []) opts
+let sequence (optionals: list<option<'a>>) : option<list<'a>> =
+    let rec sequence' acc optionals =
+        match optionals, acc with
+        | [],_ -> 
+            Option.map List.rev acc
+        | Some h :: t, Some acc -> 
+            sequence' (Some (h :: acc)) t
+        | _ -> 
+            None
 
-let oneOption = optsToOpt [Some "abc"; Some "def"; Some "ghi"]
+    sequence' (Some []) optionals
+let oneOption = sequence [Some "abc"; Some "def"; Some "ghi"]
 (** #### Value of ``oneOption`` *)
 (*** include-value: ``oneOption`` ***)
 (**
@@ -780,7 +782,7 @@ let oneOption = optsToOpt [Some "abc"; Some "def"; Some "ghi"]
 ### Homework 1
 Implement `bowlingScore`. 
 
-Hint: Use `optsToOpt` to convert from list of options to option of list
+Hint: Use `sequence` to convert from list of options to option of list
 *)
 let bowlingScore (score: string) : Option<int> =
     Some 0
