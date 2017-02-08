@@ -121,7 +121,10 @@ Sum values of all leaves in tree
 
 #### --------------- Your code goes below --------------- *)
 let rec sumLeaves (tree: Tree) : int = 
-    0
+    match tree with
+    | Empty -> 0
+    | Node (x, Empty, Empty) -> x
+    | Node (_, left, right) -> sumLeaves left + sumLeaves right
 
 let ``exercise 1.1`` = sumLeaves tree
 (** #### Value of ``exercise 1.1`` *)
@@ -172,7 +175,10 @@ Collect **all values** from tree into a list in-order
 
 #### --------------- Your code goes below --------------- *)
 let rec collectInOrder (tree : Tree) : list<int> =
-    []
+    match tree with
+    | Empty -> []
+    | Node (x, left, right) ->
+        collectInOrder left @ [x] @ collectInOrder right
 
 let ``exercise 1.2`` = collectInOrder tree
 (** #### Value of ``exercise 1.2`` *)
@@ -190,7 +196,8 @@ Check if tree is sorted
 
 #### --------------- Your code goes below --------------- *)
 let isSorted (tree: Tree) : bool =
-    false
+    let ordered = collectInOrder tree
+    ordered = List.sort ordered
 
 let ``exercise 1.3`` = isSorted tree
 (** #### Value of ``exercise 1.3`` *)
@@ -223,7 +230,13 @@ Insert element into Binary Search Tree
 
 #### --------------- Your code goes below --------------- *)
 let rec insertBST (value: int) (tree: Tree) : Tree =
-    Empty
+    match tree with
+    | Empty -> Node (value, Empty, Empty)
+    | Node (v, left, right) ->
+        if value < v then
+            Node (v, insertBST value left, right)
+        else
+            Node (v, left, insertBST value right)
 
 let ``exercise 1.4`` = insertBST 5 tree |> collectInOrder
 (** #### Value of ``exercise 1.4`` *)
@@ -347,7 +360,10 @@ Check if hand is *Flush*
 let handFlush = [King,Clubs;Queen,Clubs;Nine,Clubs;Eight,Clubs;Five,Clubs]
 
 let isFlush (hand: Hand) : bool =
-    false
+    hand
+    |> List.map snd
+    |> List.pairwise
+    |> List.forall (fun (firstSuit, secondSuit) -> firstSuit = secondSuit)
 
 let ``exercise 2.1`` = isFlush handFlush
 (** #### Value of ``exercise 2.1`` *)
@@ -401,7 +417,12 @@ Check if hand is *Full House*
 let handFullHouse = [King,Clubs;King,Spades;Nine,Clubs;Nine,Diamonds;Nine,Spades]
 
 let isFullHouse (hand: Hand) : bool =
-    false
+    hand
+    |> List.groupBy fst
+    |> List.map (snd >> List.length)
+    |> List.forall (fun value -> value > 1)
+    //|> List.sort
+    //|> ((=) [2;3])
 
 let ``exercise 2.2`` = isFullHouse handFullHouse
 (** #### Value of ``exercise 2.2`` *)
