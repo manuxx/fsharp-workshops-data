@@ -510,7 +510,7 @@ let ``exercise 2.3`` =
      ({ Shape = Circle (sqrt 2.0); Center = { X = 1.0; Y = 0.0 }},
       { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }})
 
-     ({ Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 }},
+     ({ Shape = Square 2.5;        Center = { X = 0.0; Y = 0.0 }},
       { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 0.0 }})
 
      ({ Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 }},
