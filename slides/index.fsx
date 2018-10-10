@@ -495,7 +495,7 @@ Check if first shape is circumcircle of second shape.
 First shape must be a circle, second a square or rectangle
 
 #### --------------- Your code goes below --------------- *)
-let isCircumcircle 
+let isCircumCircle 
     (centeredCircle: CenteredShape) 
     (centeredShape:  CenteredShape) 
     : bool = 
@@ -515,7 +515,7 @@ let ``exercise 2.3`` =
 
      ({ Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 }},
       { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }})]
-    |> List.map (fun (first,second) -> isCircumcircle first second)
+    |> List.map (fun (first,second) -> isCircumCircle first second)
 (** #### Value of ``exercise 2.3`` *)
 (*** include-value: ``exercise 2.3`` ***)
 (**
@@ -759,9 +759,9 @@ let ``exercise 3.2`` =
 
 ***
 
-### sequence function *)
+### sequenceOpts function *)
 
-let sequence (optionals: list<option<'a>>) : option<list<'a>> =
+let sequenceOpts (optionals: list<option<'a>>) : option<list<'a>> =
     let rec sequence' acc optionals =
         match optionals, acc with
         | [],_ -> 
@@ -772,7 +772,7 @@ let sequence (optionals: list<option<'a>>) : option<list<'a>> =
             None
 
     sequence' (Some []) optionals
-let oneOption = sequence [Some "abc"; Some "def"; Some "ghi"]
+let oneOption = sequenceOpts [Some "abc"; Some "def"; Some "ghi"]
 (** #### Value of ``oneOption`` *)
 (*** include-value: ``oneOption`` ***)
 (**
@@ -782,7 +782,7 @@ let oneOption = sequence [Some "abc"; Some "def"; Some "ghi"]
 ### Homework 1
 Implement `bowlingScore`. 
 
-Hint: Use `sequence` to convert from list of options to option of list
+Hint: Use `sequenceOpts` to convert from list of options to option of list
 *)
 let bowlingScore (score: string) : Option<int> =
     Some 0
