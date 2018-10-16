@@ -26,7 +26,7 @@ slides are regenerated when the script (.\slides\index.fsx) is **saved**
 
 ---
 
-### Agenda 
+### Agenda
 
 * Sum Types (Discriminated Unions)
 * Product Types (Tuples, Records)
@@ -64,16 +64,16 @@ type Tree =
 #### Binary Tree as DU  *)
 
 let tree =
-    Node (8, 
-     Node (3, 
-      Node (1, Empty, Empty), 
+    Node (8,
+     Node (3,
+      Node (1, Empty, Empty),
       Node (6,
-       Node (4, Empty, Empty), 
+       Node (4, Empty, Empty),
        Node (7, Empty, Empty))),
-     Node (10, 
+     Node (10,
       Empty,
-      Node (14, 
-       Node (13, Empty, Empty), 
+      Node (14,
+       Node (13, Empty, Empty),
        Empty)))
 
 (**
@@ -103,7 +103,7 @@ let rec countInternal (tree: Tree) : int =
     match tree with
     | Empty -> 0
     | Node (_, Empty, Empty) -> 0
-    | Node (_, left, right) -> 
+    | Node (_, left, right) ->
         1 + countInternal left + countInternal right
 
 let ``example 1.1`` = countInternal tree
@@ -120,7 +120,7 @@ let ``example 1.1`` = countInternal tree
 Sum values of all leaves in tree
 
 #### --------------- Your code goes below --------------- *)
-let rec sumLeaves (tree: Tree) : int = 
+let rec sumLeaves (tree: Tree) : int =
     0
 
 let ``exercise 1.1`` = sumLeaves tree
@@ -153,11 +153,11 @@ let concatenatedList = firstList @ secondList
 
 ### Example 1.2
 Collecting **leaf values** from tree into a list *)
-let rec collectLeaves (tree : Tree) : list<int> =
+let rec collectLeaves (tree : Tree) : int list =
     match tree with
     | Empty -> []
     | Node (v, Empty, Empty) -> [v]
-    | Node (_, left, right) -> 
+    | Node (_, left, right) ->
         collectLeaves left @ collectLeaves right
 
 let ``example 1.2`` = collectLeaves tree
@@ -171,7 +171,7 @@ let ``example 1.2`` = collectLeaves tree
 Collect **all values** from tree into a list in-order
 
 #### --------------- Your code goes below --------------- *)
-let rec collectInOrder (tree : Tree) : list<int> =
+let rec collectInOrder (tree : Tree) : int list =
     []
 
 let ``exercise 1.2`` = collectInOrder tree
@@ -232,9 +232,9 @@ let ``exercise 1.4`` = insertBST 5 tree |> collectInOrder
 
 ---
 
-### Summary: Sum Types (Discriminated Unions)  
+### Summary: Sum Types (Discriminated Unions)
 
-* DUs represent distinct cases that **sum up** to the represented Type 
+* DUs represent distinct cases that **sum up** to the represented Type
 * DUs types can be defined in recursive way (e.g. Node in Tree)
 * DUs are immutable - can make a copy, but not mutate
 
@@ -263,9 +263,9 @@ let ``exercise 1.4`` = insertBST 5 tree |> collectInOrder
 
 ### New Stuff 2.1
 #### Modelling cards *)
-type Figure = 
-    | Two  | Three | Four  | Five 
-    | Six  | Seven | Eight | Nine 
+type Figure =
+    | Two  | Three | Four  | Five
+    | Six  | Seven | Eight | Nine
     | Ten  | Jack  | Queen | King | Ace
 
 type Suit = Diamonds | Spades | Hearts | Clubs
@@ -274,7 +274,7 @@ type Suit = Diamonds | Spades | Hearts | Clubs
 type Card = Figure * Suit
 
 // Type alias for a list
-type Hand = list<Card>
+type Hand = Card list
 (**
 
 ---
@@ -292,7 +292,7 @@ let oddNumbers =
 ### Pattern matching tuples *)
 let kingSpades = King, Spades
 let (figure, suit) = kingSpades
-let isKingSpades = 
+let isKingSpades =
     match kingSpades with
     | King, Spades -> true
     | _ -> false
@@ -320,12 +320,12 @@ let hearts = snd queenHearts
 
 ### Example 2.1
 Checking all cards *)
-let threeKings = 
+let threeKings =
     [King, Clubs
      King, Diamonds
      King, Hearts]
 
-let ``example 2.1`` = 
+let ``example 2.1`` =
     threeKings
     |> List.forall (fun (figure,suit) -> figure = King)
 (** #### Value of ``example 2.1`` *)
@@ -384,7 +384,7 @@ let groupModThree =
 
 ### Example 2.2
 Counting occurences  *)
-let ``example 2.2`` = 
+let ``example 2.2`` =
     ["Ananas";"Banan";"Agrest";"Cukinia";"Cebula";"Aronia"]
     |> List.groupBy (fun word -> word.ToCharArray().[0])
     |> List.map (fun (letter,words) -> (letter,words.Length))
@@ -418,11 +418,11 @@ let ``exercise 2.2`` = isFullHouse handFullHouse
 #### Records *)
 
 type Point =
-  { X : float 
+  { X : float
     Y : float }
 
 type CenteredShape =
-  { Shape : Shape 
+  { Shape : Shape
     Center : Point }
 
 (**
@@ -448,13 +448,13 @@ let shapeField = shape.Shape
 
 #### Record structural equality *)
 
-let shapesAreEqual = 
+let shapesAreEqual =
     shape = { Shape = Square 3.0; Center = point }
 
 (** #### Value of ``shapesAreEqual`` *)
 (*** include-value: ``shapesAreEqual`` ***)
 
-(** 
+(**
 
 ---
 
@@ -495,15 +495,15 @@ Check if first shape is circumcircle of second shape.
 First shape must be a circle, second a square or rectangle
 
 #### --------------- Your code goes below --------------- *)
-let isCircumCircle 
-    (centeredCircle: CenteredShape) 
-    (centeredShape:  CenteredShape) 
-    : bool = 
+let isCircumCircle
+    (centeredCircle: CenteredShape)
+    (centeredShape:  CenteredShape)
+    : bool =
     false
 
 (** --- *)
 
-let ``exercise 2.3`` = 
+let ``exercise 2.3`` =
     [({ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
       { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }})
 
@@ -549,11 +549,11 @@ let circleWithSameCenter =
 Translate centered shape
 *)
 let translate (vectorPoint: Point) (shape: CenteredShape) : CenteredShape =
-    { shape with Center = 
-                 { X = shape.Center.X + vectorPoint.X; 
+    { shape with Center =
+                 { X = shape.Center.X + vectorPoint.X;
                    Y = shape.Center.Y + vectorPoint.Y }}
 
-let ``example 2.4`` = 
+let ``example 2.4`` =
     [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
      { Shape = Square 2.0;        Center = { X = 0.0; Y = 3.0 }}
      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
@@ -569,12 +569,12 @@ let ``example 2.4`` =
 Scale centered shape
 
 #### --------------- Your code goes below --------------- *)
-let scale (magnitude: float) (centeredShape: CenteredShape) : CenteredShape  = 
+let scale (magnitude: float) (centeredShape: CenteredShape) : CenteredShape  =
     centeredShape
 
 (** --- *)
 
-let ``exercise 2.4`` = 
+let ``exercise 2.4`` =
     [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
      { Shape = Square 1.0;        Center = { X = 0.0; Y = 3.0 }}
      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
@@ -586,7 +586,7 @@ let ``exercise 2.4`` =
 
 ---
 
-### Summary: Product Types (Tuples, Records)  
+### Summary: Product Types (Tuples, Records)
 
 * Type aliases are used for better understanding of code
 * Tuples represent a **product** of two (or more) types
@@ -628,7 +628,7 @@ let ``exercise 2.4`` =
     10+5 + 10+5 + 10+5 + 10+5 + 10+5 + ... = 150
 
     "X9/5/72XXX9-8/9/X"
-    10+9+1  + 9+1+5  + 5+5+7 + 7+2   + 10+10+10 + 
+    10+9+1  + 9+1+5  + 5+5+7 + 7+2   + 10+10+10 +
     10+10+9 + 10+9+0 + 9+0   + 8+2+9 + 9+1+10   = 187
 
     "X4/2-" // What is the score?
@@ -645,7 +645,7 @@ let (|Digit|_|) char =
     else
         None
 
-let digit = 
+let digit =
     match '5' with
     | Digit x -> "a digit " + x.ToString()
     | _ -> "not a digit"
@@ -663,7 +663,7 @@ let rec matchNext5 list =
     | x :: 5 :: rest -> 0 :: 5 :: matchNext5 rest
     | x :: rest -> x :: matchNext5 rest
 
-let ``example 3.1`` = 
+let ``example 3.1`` =
     matchNext5 [1..10]
 (** #### Value of ``example 3.1`` *)
 (*** include-value: ``example 3.1`` ***)
@@ -676,7 +676,7 @@ let ``example 3.1`` =
 Implement `parseScore`.
 
 #### --------------- Your code goes below --------------- *)
-let rec parseScore (chars: list<char>) : list<Option<int>> =
+let rec parseScore (chars: char list) : int option list =
     []
 
 let ``exercise 3.1`` = parseScore ['X';'4';'/';'2';'-';'N']
@@ -698,7 +698,7 @@ let onlyEvenNumber optNumber =
     match optNumber with
     | Some n when n % 2 = 0 -> "ok"
     | _ -> "wrong"
-    
+
 let onlyEvenNumbers =
     [Some 2; Some 3; Some 4; Some 5; None]
     |> List.map onlyEvenNumber
@@ -727,16 +727,16 @@ let triangle = numTriangle [1 .. 5]
 Implement `countScore`
 
 #### --------------- Your code goes below --------------- *)
-let rec countScore (scores: list<int>) : int =
+let rec countScore (scores: int list) : int =
     0
 
 (** ---  *)
-let ``exercise 3.2`` = 
+let ``exercise 3.2`` =
     [[10;10;10;10;10;10;10;10;10;10;10;10]
      [9;0;9;0;9;0;9;0;9;0;9;0;9;0;9;0;9;0;9;0]
      [5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5]
      [10;9;1;5;5;7;2;10;10;10;9;0;8;2;9;1;10]]
-    |> List.map countScore 
+    |> List.map countScore
 (** #### Value of ``exercise 3.2`` *)
 (*** include-value: ``exercise 3.2`` ***)
 (**
@@ -744,9 +744,9 @@ let ``exercise 3.2`` =
 
 ---
 
-### Summary: Lists  
+### Summary: Lists
 
-* List are idiomatic for F# 
+* List are idiomatic for F#
 * Pattern matching combined with recursion allow to represent complex list algorithms in elegant way
 
 ---
@@ -761,14 +761,14 @@ let ``exercise 3.2`` =
 
 ### sequenceOpts function *)
 
-let sequenceOpts (optionals: list<option<'a>>) : option<list<'a>> =
+let sequenceOpts (optionals: 'a option list) : 'a list option =
     let rec sequence' acc optionals =
         match optionals, acc with
-        | [],_ -> 
+        | [],_ ->
             Option.map List.rev acc
-        | Some h :: t, Some acc -> 
+        | Some h :: t, Some acc ->
             sequence' (Some (h :: acc)) t
-        | _ -> 
+        | _ ->
             None
 
     sequence' (Some []) optionals
@@ -780,16 +780,16 @@ let oneOption = sequenceOpts [Some "abc"; Some "def"; Some "ghi"]
 ---
 
 ### Homework 1
-Implement `bowlingScore`. 
+Implement `bowlingScore`.
 
 Hint: Use `sequenceOpts` to convert from list of options to option of list
 *)
-let bowlingScore (score: string) : Option<int> =
+let bowlingScore (score: string) : int option =
     Some 0
 
-let ``homework 1`` = 
-    ["XXXXXXXXXXXX" 
-     "9-9-9-9-9-9-9-9-9-9-" 
+let ``homework 1`` =
+    ["XXXXXXXXXXXX"
+     "9-9-9-9-9-9-9-9-9-9-"
      "5/5/5/5/5/5/5/5/5/5/5"
      "X9/5/72XXX9-8/9/X" ] |> List.map bowlingScore
 (** #### Value of ``homework 1`` *)
@@ -805,18 +805,18 @@ Write new, **tail-recursive** versions of `parseScore` and `countScore`.
 
 Implement `bowlingScoreTail` to use those 2 new functions
 *)
-let rec parseScoreTail 
-            (chars: list<char>) 
-            (acc : list<Option<int>>) 
-            : list<Option<int>> =
+let rec parseScoreTail
+            (chars: char list)
+            (acc : int option list)
+            : int option list =
     []
 
 (** --- *)
-let rec countScoreTail (scores: list<int>) (acc : int) : int =
+let rec countScoreTail (scores: int list) (acc : int) : int =
     0
 
 (** --- *)
-let bowlingScoreTail (score: string) : Option<int> =
+let bowlingScoreTail (score: string) : int option =
     Some 0
 
 let ``homework 2`` = bowlingScoreTail "XXXXXXXXXXXX"
