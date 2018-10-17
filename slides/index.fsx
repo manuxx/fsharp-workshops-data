@@ -43,10 +43,10 @@ slides are regenerated when the script (.\slides\index.fsx) is **saved**
 ### New Stuff 1.1
 #### Discriminated Unions reminder *)
 type Shape =
-| Square of edge : float
-// `*` in type declarations stands for tuples
-| Rectangle of width : float * height : float
-| Circle of radius : float
+    | Square of edge : float
+    // `*` in type declarations stands for tuples
+    | Rectangle of width : float * height : float
+    | Circle of radius : float
 
 (**
 
@@ -54,8 +54,8 @@ type Shape =
 
 #### Binary Tree as DU *)
 type Tree =
-| Empty
-| Node of value: int * left: Tree * right: Tree
+    | Empty
+    | Node of value: int * left: Tree * right: Tree
 
 (**
 
@@ -136,7 +136,7 @@ let ``exercise 1.1`` = sumLeaves tree
 
 ### New Stuff 1.2
 #### List concatenation operator *)
-let firstList = [1;3;5]
+let firstList = [1; 3; 5]
 let secondList = [2 .. 10]
 let concatenatedList = firstList @ secondList
 (** #### Value of ``concatenatedList`` *)
@@ -321,9 +321,9 @@ let hearts = snd queenHearts
 ### Example 2.1
 Checking all cards *)
 let threeKings =
-    [King, Clubs
-     King, Diamonds
-     King, Hearts]
+    [ (King, Clubs)
+      (King, Diamonds)
+      (King, Hearts) ]
 
 let ``example 2.1`` =
     threeKings
@@ -344,7 +344,7 @@ let ``example 2.1`` =
 Check if hand is *Flush*
 
 #### --------------- Your code goes below --------------- *)
-let handFlush = [King,Clubs;Queen,Clubs;Nine,Clubs;Eight,Clubs;Five,Clubs]
+let handFlush = [ (King, Clubs); (Queen, Clubs); (Nine, Clubs); (Eight, Clubs); (Five, Clubs) ]
 
 let isFlush (hand: Hand) : bool =
     false
@@ -385,7 +385,7 @@ let groupModThree =
 ### Example 2.2
 Counting occurences  *)
 let ``example 2.2`` =
-    ["Ananas";"Banan";"Agrest";"Cukinia";"Cebula";"Aronia"]
+    ["Ananas"; "Banan"; "Agrest"; "Cukinia"; "Cebula"; "Aronia"]
     |> List.groupBy (fun word -> word.ToCharArray().[0])
     |> List.map (fun (letter,words) -> (letter,words.Length))
 (** #### Value of ``example 2.2`` *)
@@ -398,7 +398,7 @@ let ``example 2.2`` =
 Check if hand is *Full House*
 
 #### --------------- Your code goes below --------------- *)
-let handFullHouse = [King,Clubs;King,Spades;Nine,Clubs;Nine,Diamonds;Nine,Spades]
+let handFullHouse = [ (King, Clubs); (King, Spades); (Nine, Clubs); (Nine, Diamonds); (Nine, Spades) ]
 
 let isFullHouse (hand: Hand) : bool =
     false
@@ -418,12 +418,12 @@ let ``exercise 2.2`` = isFullHouse handFullHouse
 #### Records *)
 
 type Point =
-  { X : float
-    Y : float }
+    { X : float
+      Y : float }
 
 type CenteredShape =
-  { Shape : Shape
-    Center : Point }
+    { Shape : Shape
+      Center : Point }
 
 (**
 
@@ -461,7 +461,7 @@ let shapesAreEqual =
 #### Power and square root *)
 
 let forthAndBack =
-    [ 1.0 .. 10.0 ]
+    [1.0..10.0]
     |> List.map (fun x -> x ** 2.0)
     |> List.map (fun x -> sqrt x)
 
@@ -479,9 +479,9 @@ let withCenterIn point shapes =
     |> List.filter (fun shape -> shape.Center = point)
 
 let ``example 2.3`` =
-    [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
-     { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }}
-     { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
+    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 } }
+      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 } }
+      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 } } ]
     |> withCenterIn { X = 0.0; Y = 0.0 }
 (** #### Value of ``example 2.3`` *)
 (*** include-value: ``example 2.3`` ***)
@@ -504,17 +504,17 @@ let isCircumCircle
 (** --- *)
 
 let ``exercise 2.3`` =
-    [({ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }},
-      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }})
+    [ ( { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 } },
+        { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 } } )
 
-     ({ Shape = Circle (sqrt 2.0); Center = { X = 1.0; Y = 0.0 }},
-      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 }})
+      ( { Shape = Circle (sqrt 2.0); Center = { X = 1.0; Y = 0.0 } },
+        { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 } } )
 
-     ({ Shape = Square 2.5;        Center = { X = 0.0; Y = 0.0 }},
-      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 0.0 }})
+      ( { Shape = Square 2.5;        Center = { X = 0.0; Y = 0.0 } },
+        { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 0.0 } } )
 
-     ({ Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 }},
-      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }})]
+      ( { Shape = Circle 2.5;        Center = { X = 0.0; Y = 0.0 } },
+        { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 } } ) ]
     |> List.map (fun (first,second) -> isCircumCircle first second)
 (** #### Value of ``exercise 2.3`` *)
 (*** include-value: ``exercise 2.3`` ***)
@@ -551,12 +551,12 @@ Translate centered shape
 let translate (vectorPoint: Point) (shape: CenteredShape) : CenteredShape =
     { shape with Center =
                  { X = shape.Center.X + vectorPoint.X;
-                   Y = shape.Center.Y + vectorPoint.Y }}
+                   Y = shape.Center.Y + vectorPoint.Y } }
 
 let ``example 2.4`` =
-    [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
-     { Shape = Square 2.0;        Center = { X = 0.0; Y = 3.0 }}
-     { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
+    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 } }
+      { Shape = Square 2.0;        Center = { X = 0.0; Y = 3.0 } }
+      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 } } ]
     |> List.map (translate { X = -2.0; Y = -3.0 })
 
 (** #### Value of ``example 2.4`` *)
@@ -575,9 +575,9 @@ let scale (magnitude: float) (centeredShape: CenteredShape) : CenteredShape  =
 (** --- *)
 
 let ``exercise 2.4`` =
-    [{ Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 }}
-     { Shape = Square 1.0;        Center = { X = 0.0; Y = 3.0 }}
-     { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 }}]
+    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 } }
+      { Shape = Square 1.0;        Center = { X = 0.0; Y = 3.0 } }
+      { Shape = Rectangle (3.,4.); Center = { X = 0.0; Y = 1.0 } } ]
     |> List.map (scale 2.0)
 
 (** #### Value of ``exercise 2.4`` *)
@@ -679,7 +679,7 @@ Implement `parseScore`.
 let rec parseScore (chars: char list) : int option list =
     []
 
-let ``exercise 3.1`` = parseScore ['X';'4';'/';'2';'-';'N']
+let ``exercise 3.1`` = parseScore ['X'; '4'; '/'; '2'; '-'; 'N']
 (** #### Value of ``exercise 3.1`` *)
 (*** include-value: ``exercise 3.1`` ***)
 (**
@@ -732,10 +732,10 @@ let rec countScore (scores: int list) : int =
 
 (** ---  *)
 let ``exercise 3.2`` =
-    [[10;10;10;10;10;10;10;10;10;10;10;10]
-     [9;0;9;0;9;0;9;0;9;0;9;0;9;0;9;0;9;0;9;0]
-     [5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5;5]
-     [10;9;1;5;5;7;2;10;10;10;9;0;8;2;9;1;10]]
+    [ [10; 10; 10; 10; 10; 10; 10; 10; 10; 10; 10; 10]
+      [9; 0; 9; 0; 9; 0; 9; 0; 9; 0; 9; 0; 9; 0; 9; 0; 9; 0; 9; 0]
+      [5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5; 5]
+      [10; 9; 1; 5; 5; 7; 2; 10; 10; 10; 9; 0; 8; 2; 9; 1; 10] ]
     |> List.map countScore
 (** #### Value of ``exercise 3.2`` *)
 (*** include-value: ``exercise 3.2`` ***)
@@ -791,7 +791,8 @@ let ``homework 1`` =
     ["XXXXXXXXXXXX"
      "9-9-9-9-9-9-9-9-9-9-"
      "5/5/5/5/5/5/5/5/5/5/5"
-     "X9/5/72XXX9-8/9/X" ] |> List.map bowlingScore
+     "X9/5/72XXX9-8/9/X" ] 
+    |> List.map bowlingScore
 (** #### Value of ``homework 1`` *)
 (*** include-value: ``homework 1`` ***)
 (**
@@ -806,9 +807,9 @@ Write new, **tail-recursive** versions of `parseScore` and `countScore`.
 Implement `bowlingScoreTail` to use those 2 new functions
 *)
 let rec parseScoreTail
-            (chars: char list)
-            (acc : int option list)
-            : int option list =
+    (chars: char list)
+    (acc : int option list)
+    : int option list =
     []
 
 (** --- *)
