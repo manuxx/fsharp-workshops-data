@@ -432,10 +432,9 @@ type CenteredShape =
 #### Record fields (labeled) *)
 
 let point = { X = 2.0; Y = 4.5 }
-let shape = { Shape = Square 3.0; Center = point }
-
+let positionedShape = { Shape = Square 3.0; Center = point }
 let pointX = point.X
-let shapeField = shape.Shape
+let shapeField = positionedShape.Shape
 (** #### Value of ``pointX`` *)
 (*** include-value: ``pointX`` ***)
 
@@ -444,12 +443,28 @@ let shapeField = shape.Shape
 
 
 (**
+
+---
+
+#### Deconstructing records *)
+
+let { Shape = shape; Center = { X = x; Y = y } } = positionedShape
+
+(** #### Value of ``x`` *)
+(*** include-value: ``x`` ***)
+
+(** #### Value of ``shape`` *)
+(*** include-value: ``shape`` ***)
+
+
+(**
+
 ---
 
 #### Record structural equality *)
 
 let shapesAreEqual =
-    shape = { Shape = Square 3.0; Center = point }
+    positionedShape = { Shape = Square 3.0; Center = point }
 
 (** #### Value of ``shapesAreEqual`` *)
 (*** include-value: ``shapesAreEqual`` ***)
@@ -458,22 +473,8 @@ let shapesAreEqual =
 
 ---
 
-#### Power and square root *)
-
-let forthAndBack =
-    [1.0..10.0]
-    |> List.map (fun x -> x ** 2.0)
-    |> List.map (fun x -> sqrt x)
-
-(** #### Value of ``forthAndBack`` *)
-(*** include-value: ``forthAndBack`` ***)
-
-(**
-
----
-
 ### Example 2.3
-Finding shapes with center in specific point *)
+Working with records *)
 let withCenterIn point shapes =
     shapes
     |> List.filter (fun shape -> shape.Center = point)
@@ -489,12 +490,31 @@ let ``example 2.3`` =
 
 ---
 
+### Example 2.3.1
+Pattern matching with records deconstruction *)
+let isCentralGoldenRectangle = function
+    | { Shape = Rectangle (width, height); Center = {X = 0.0; Y = 0.0} }
+        when abs (width / height - 1.618) < 0.001  -> true
+    | _ -> false
+let ``example 2.3.1`` =
+    [ { Shape = Circle (sqrt 2.0); Center = { X = 0.0; Y = 0.0 } }
+      { Shape = Square 2.0;        Center = { X = 0.0; Y = 0.0 } }
+      { Shape = Rectangle (1.618, 1.); Center = { X = 5.0; Y = 1.0 } }
+      { Shape = Rectangle (1.618, 1.); Center = { X = 0.0; Y = 0.0 } } ]
+    |> List.map isCentralGoldenRectangle
+(** #### Value of ``example 2.3.1`` *)
+(*** include-value: ``example 2.3.1`` ***)
+(**
+
+---
+
 ### Exercise 2.3
 Check if first shape is circumcircle of second shape.
 
-First shape must be a circle, second a square or rectangle
+First shape must be a circle, second a square or rectangle or circle
 
 #### --------------- Your code goes below --------------- *)
+
 let isCircumCircle
     (centeredCircle: CenteredShape)
     (centeredShape:  CenteredShape)
@@ -660,7 +680,7 @@ List pattern match on next value *)
 let rec matchNext5 list =
     match list with
     | [] -> []
-    | x :: 5 :: rest -> 0 :: 5 :: matchNext5 rest
+    | _ :: 5 :: rest -> 0 :: matchNext5 (5 :: rest)
     | x :: rest -> x :: matchNext5 rest
 
 let ``example 3.1`` =
@@ -791,7 +811,7 @@ let ``homework 1`` =
     ["XXXXXXXXXXXX"
      "9-9-9-9-9-9-9-9-9-9-"
      "5/5/5/5/5/5/5/5/5/5/5"
-     "X9/5/72XXX9-8/9/X" ] 
+     "X9/5/72XXX9-8/9/X" ]
     |> List.map bowlingScore
 (** #### Value of ``homework 1`` *)
 (*** include-value: ``homework 1`` ***)
@@ -835,3 +855,9 @@ let ``homework 2`` = bowlingScoreTail "XXXXXXXXXXXX"
 * Lists
 
 *)
+
+
+
+// partial application
+// fold foldBack reduce
+// sequences - infinite seqs
