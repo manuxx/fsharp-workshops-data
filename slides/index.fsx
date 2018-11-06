@@ -111,7 +111,6 @@ let ``example 1.1`` = countInternal tree
 (*** include-value: ``example 1.1`` ***)
 (**
 
-*Sidenote: How to make `countInternal` tail-recursive?*
 
 ---
 
@@ -345,7 +344,8 @@ Check if hand is *Flush*
 
 Note: `List.forall` could be useful
 #### --------------- Your code goes below --------------- *)
-let handFlush = [ (King, Clubs); (Queen, Clubs); (Nine, Clubs); (Eight, Clubs); (Five, Clubs) ]
+let handFlush = [ (King, Clubs); (Queen, Clubs); 
+                  (Nine, Clubs); (Eight, Clubs); (Five, Clubs) ]
 
 let isFlush (hand: Hand) : bool =
     false
@@ -399,7 +399,8 @@ let ``example 2.2`` =
 Check if hand is *Full House*
 
 #### --------------- Your code goes below --------------- *)
-let handFullHouse = [ (King, Clubs); (King, Spades); (Nine, Clubs); (Nine, Diamonds); (Nine, Spades) ]
+let handFullHouse = [ (King, Clubs); (King, Spades); 
+                      (Nine, Clubs); (Nine, Diamonds); (Nine, Spades) ]
 
 let isFullHouse (hand: Hand) : bool =
     false
