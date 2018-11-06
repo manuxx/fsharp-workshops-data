@@ -43,10 +43,10 @@ slides are regenerated when the script (.\slides\index.fsx) is **saved**
 ### New Stuff 1.1
 #### Discriminated Unions reminder *)
 type Shape =
-    | Square of edge : float
+    | Square of float
     // `*` in type declarations stands for tuples
-    | Rectangle of width : float * height : float
-    | Circle of radius : float
+    | Rectangle of float * float
+    | Circle of float
 
 (**
 
@@ -55,7 +55,7 @@ type Shape =
 #### Binary Tree as DU *)
 type Tree =
     | Empty
-    | Node of value: int * left: Tree * right: Tree
+    | Node of int * Tree * Tree
 
 (**
 
