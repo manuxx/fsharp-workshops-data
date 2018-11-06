@@ -12,9 +12,9 @@
 ### Functional Data Structures
 
     [lang=bash]
-    git clone https://github.com/theimowski/fsharp-workshops-data.git
+    git clone https://github.com/manuxx/fsharp-workshops-data.git
 
-or download ZIP from [here](https://github.com/theimowski/fsharp-workshops-data/archive/master.zip), then in **Command Prompt**:
+or download ZIP from [here](https://github.com/manuxx/fsharp-workshops-data/archive/master.zip), then in **Command Prompt**:
 
     [lang=bash]
     cd fsharp-workshops-data
@@ -343,6 +343,7 @@ let ``example 2.1`` =
 ### Exercise 2.1
 Check if hand is *Flush*
 
+Note: `List.forall` could be useful
 #### --------------- Your code goes below --------------- *)
 let handFlush = [ (King, Clubs); (Queen, Clubs); (Nine, Clubs); (Eight, Clubs); (Five, Clubs) ]
 
@@ -676,17 +677,32 @@ let digit =
 ---
 
 ### Example 3.1
-List pattern match on next value *)
-let rec matchNext5 list =
+pattern match on next value and aliases *)
+let rec clearPredsOf5 list =
     match list with
     | [] -> []
-    | _ :: 5 :: rest -> 0 :: matchNext5 (5 :: rest)
-    | x :: rest -> x :: matchNext5 rest
+    | _ :: 5 :: tail -> 0 :: clearPredsOf5 (5 :: tail)
+    | x :: rest -> x :: clearPredsOf5 rest
 
-let ``example 3.1`` =
-    matchNext5 [1..10]
+let ``example 3.1`` = clearPredsOf5 ([1..10] @ [5;5;5])
 (** #### Value of ``example 3.1`` *)
 (*** include-value: ``example 3.1`` ***)
+
+(**
+
+
+---
+
+### New stuff 3.2
+#### Symbol alias in pattern matching *)
+
+(** Same code as previous with symbol alias *)
+let rec clearPredsOf5WA list =
+    match list with
+    | [] -> []
+    | _ :: (5 :: _ as rest) -> 0 :: clearPredsOf5WA rest
+    | x :: rest -> x :: clearPredsOf5WA rest
+
 (**
 
 
@@ -709,37 +725,6 @@ let ``exercise 3.1`` = parseScore ['X'; '4'; '/'; '2'; '-'; 'N']
 
 
 
-
----
-
-### New Stuff 3.2
-#### Pattern match guards (`when` keyword) *)
-let onlyEvenNumber optNumber =
-    match optNumber with
-    | Some n when n % 2 = 0 -> "ok"
-    | _ -> "wrong"
-
-let onlyEvenNumbers =
-    [Some 2; Some 3; Some 4; Some 5; None]
-    |> List.map onlyEvenNumber
-(** #### Value of ``onlyEvenNumbers`` *)
-(*** include-value: ``onlyEvenNumbers`` ***)
-(**
-
----
-
-#### Symbol alias in pattern matching *)
-let rec numTriangle numbers =
-    match numbers with
-    | first :: (second :: _ as rest) ->
-        first + second :: numTriangle rest
-    | _ ->
-        []
-
-let triangle = numTriangle [1 .. 5]
-(** #### Value of ``triangle`` *)
-(*** include-value: ``triangle`` ***)
-(**
 
 ---
 
